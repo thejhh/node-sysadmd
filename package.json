@@ -1,0 +1,17 @@
+{
+  "name": "sysadmd",
+  "version": "0.0.1",
+  "description": "Remote System Administration Daemon",
+  "main": "src/daemon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+	"snippets": "*",
+	"remote-daemon": "*"
+  },
+  "license": "MIT",
+  "bin": {
+    "sysadmd": "./bin/sysadmd"
+  }
+}
