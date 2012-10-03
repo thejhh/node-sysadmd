@@ -1,14 +1,15 @@
 {
+  "author": "Jaakko-Heikki Heusala <jheusala@iki.fi> (http://www.jhh.me)",
   "name": "sysadmd",
   "version": "0.0.1",
-  "description": "Remote System Administration Daemon",
+  "description": "Dnode-based system administration daemon",
   "main": "src/daemon.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
 	"snippets": "*",
-	"remote-daemon": "*"
+	"dnode-daemon": "*"
   },
   "license": "MIT",
   "bin": {

@@ -1,6 +1,6 @@
 /* */
 
-var remoted = require('remote-daemon'),
+var remoted = require('dnode-daemon'),
     foreach = require('snippets').foreach;
 
 remoted.connect({'remote_cmd':'bin/sysadmd','remote_args':[]}, function (service, dnode) {
