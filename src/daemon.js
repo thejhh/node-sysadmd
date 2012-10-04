@@ -7,9 +7,9 @@ var mod = module.exports = {},
     os = require('os'),
     getent = require('./getent.js'),
     foreach = require('snippets').foreach,
-    systems = {
-		user: require('./systems/user.js'),
-		group: require('./systems/group.js')
+    services = {
+		user: require('./services/user.js'),
+		group: require('./services/group.js')
 	};
 
 /* Create dnode server */
@@ -37,8 +37,8 @@ mod.createServer = function() {
 		//process.stderr.write("DEBUG: types = " + JSON.stringify(types) +"\n");
 		foreach(types).each(function(type) {
 			//process.stderr.write("DEBUG: type = " +type +"\n");
-			if(systems[type] && (typeof systems[type] === 'object')) {
-				systems[type].list(objects, function(err) {
+			if(services[type] && (typeof services[type] === 'object')) {
+				services[type].list(objects, function(err) {
 					if(err) { errors.push(err); }
 					counter -= 1;
 				});
