@@ -8,6 +8,11 @@ var os = require('os'),
     getent = require('../getent.js'),
     mod = module.exports = {};
 
+/** Get metadata for this service */
+mod.getMetaData = function() {
+	return {'description':'System groups'};
+};
+
 /* */
 mod.list = function(objects, fn) {
 	if(!( fn && (typeof fn === "function") )) {

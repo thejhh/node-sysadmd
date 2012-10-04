@@ -17,19 +17,32 @@ mod.createServer = function() {
 	var remoted = require('dnode-daemon'),
 	    methods = {};
 	
-	/** List all objects of specific type(s) from the system
+	/** List all services from the system
 	 * @param types Array of types
-	 * @param cb Callback function
+	 * @param fn Callback function
 	 */
-	methods.list = function (types, cb) {
+	methods.list = function (path, fn) {
 		//process.stderr.write("DEBUG: list method called\n");
-		if(!( cb && (typeof cb === "function") )) {
-			process.stderr.write("Error! daemon.list called with invalid callback function!\n");
+
+		if(!( fn && (typeof fn === "function") )) {
+			throw new Error("Error! daemon.list called with invalid callback function!\n");
 			return;
 		}
+
+		/*
 		if(!( types && (types instanceof Array) )) {
-			return cb("Invalid first argument: types");
+			return fn("Invalid first argument: types");
 		}
+
+		if(types.length === 0) {
+			var objects = {};
+			foreach(objects).each(function(obj, name) {
+				objects[name] = services[type].getMetaData();
+			});
+			fn(undefined, objects);
+			return;
+		}
+
 		var objects = {},
 		    errors = [],
 		    counter = types.length;
@@ -59,40 +72,41 @@ mod.createServer = function() {
 			//process.stderr.write("DEBUG: objects = " + JSON.stringify(objects) +"\n");
 			
 			if(errors.length === 1) {
-				cb(errors.shift(), objects);
+				fn(errors.shift(), objects);
 			} else if(errors.length !== 0) {
-				cb("Several errors occured: \n - " + errors.join("\n - "), objects);
+				fn("Several errors occured: \n - " + errors.join("\n - "), objects);
 			} else {
-				cb(undefined, objects);
+				fn(undefined, objects);
 			}
 		}
 		waiter();
+	*/
 	};
 
 	/* Add new object to the system
 	 * @param id Object identifier
 	 * @param values Object values
-	 * @param cb Callback function
+	 * @param fn Callback function
 	 */
-	methods.add = function(id, values, cb) {
-		cb("Not implemented");
+	methods.add = function(id, values, fn) {
+		fn("Not implemented");
 	};
 
 	/* Update an object in the system
 	 * @param id Object identifier
 	 * @param values New values for the object
-	 * @param cb Callback function
+	 * @param fn Callback function
 	 */
-	methods.modify = function(id, values, cb) {
-		cb("Not implemented");
+	methods.modify = function(id, values, fn) {
+		fn("Not implemented");
 	};
 
 	/* Remove an object from the system
 	 * @param id Object identifier
-	 * @param cb Callback function
+	 * @param fn Callback function
 	 */
-	methods.del = function(id, cb) {
-		cb("Not implemented");
+	methods.del = function(id, fn) {
+		fn("Not implemented");
 	};
 	
 	//process.stderr.write("methods = " + JSON.stringify(methods) + "\n");

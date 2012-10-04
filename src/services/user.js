@@ -8,6 +8,11 @@ var foreach = require('snippets').foreach;
 var getent = require('../getent.js');
 var mod = module.exports = {};
 
+/** Get metadata for this service */
+mod.getMetaData = function() {
+	return {'description':'System user accounts'};
+};
+
 /** List records
  * @param objects Submits new objects into this object as properties.
  * @param fn Callback function that will get the results in format function(errors, objects)
