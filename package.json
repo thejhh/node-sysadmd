@@ -14,5 +14,11 @@
   "license": "MIT",
   "bin": {
     "sysadmd": "./bin/sysadmd"
+  },
+  "devDependencies": {
+    "lint": "*"
+  },
+  "scripts": {
+    "lint": "./run-lint.sh"
   }
 }
