@@ -5,12 +5,10 @@
 
 var mod = module.exports = {},
     os = require('os'),
+    fun = require('./fun.js'),
     getent = require('./getent.js'),
     foreach = require('snippets').foreach,
-    services = {
-		user: require('./services/user.js'),
-		group: require('./services/group.js')
-	};
+    services = require('./services/index.js');
 
 /* Create dnode server */
 mod.createServer = function() {
@@ -18,18 +16,22 @@ mod.createServer = function() {
 	    methods = {};
 	
 	/** List all services from the system
-	 * @param types Array of types
 	 * @param fn Callback function
 	 */
 	methods.list = function (path, fn) {
-		//process.stderr.write("DEBUG: list method called\n");
+		var args = fun.conform(arguments, {min:1,max:2});
+		if(!args) return;
+		fn = args.shift();
+		path = args.shift();
 
+		//process.stderr.write("DEBUG: list method called\n");
+		
+		/*
 		if(!( fn && (typeof fn === "function") )) {
 			throw new Error("Error! daemon.list called with invalid callback function!\n");
 			return;
 		}
 
-		/*
 		if(!( types && (types instanceof Array) )) {
 			return fn("Invalid first argument: types");
 		}
@@ -84,11 +86,17 @@ mod.createServer = function() {
 	};
 
 	/* Add new object to the system
-	 * @param id Object identifier
+	 * @param path Object identifier
 	 * @param values Object values
 	 * @param fn Callback function
 	 */
-	methods.add = function(id, values, fn) {
+	methods.add = function(path, obj, fn) {
+		var args = fun.conform(arguments, {min:3,max:3});
+		if(!args) return;
+		fn = args.shift();
+		values = args.shift();
+		path = args.shift();
+
 		fn("Not implemented");
 	};
 
