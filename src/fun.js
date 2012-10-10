@@ -1,5 +1,7 @@
 /* Utilities for function handling */
 
+/* TODO: Support for checking argument types. This could even read the source code comment tags and build checks based on documented features. */
+
 /* for node-lint */
 /*global Buffer: false, clearInterval: false, clearTimeout: false, console: false, global: false, module: false, process: false, querystring: false, require: false, setInterval: false, setTimeout: false, util: false, __filename: false, __dirname: false */
 
@@ -12,7 +14,7 @@ var mod = module.exports = {};
  * @param args Argument list as array.
  * @returns Returns argument list in reverse order. First element is the callback function.
  */
-mod.conform = function(args, opts) {
+function do_conform(args, opts) {
 	var arg, fn;
 	try {
 		opts = opts || {};
@@ -69,6 +71,21 @@ mod.conform = function(args, opts) {
 			throw e;
 		}
 	}
+};
+
+/* Conformed function builder */
+mod.conform = function(opts, fn) {
+	var retfn = function() {
+		var max_length = opts.max || arguments.length,
+		    args = do_conform(arguments, opts);
+		if(!args) return;
+		args.reverse();
+		while(args.length < max_length) {
+			args.unshift(undefined);
+		}
+		fn.apply(undefined, args);
+	};
+	return retfn;
 };
 
 /* EOF */
