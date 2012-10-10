@@ -21,6 +21,10 @@ mod.createServer = function() {
 	 */
 	methods.get = fun.conform({min:1,max:2}, function (path, fn) {
 		var s = services.find(path);
+		if(!s) {
+			fn("Could not find path " + path);
+			return;
+		}
 		fn(undefined, s);
 	});
 
@@ -29,26 +33,41 @@ mod.createServer = function() {
 	 * @param values Object values
 	 * @param fn Callback function
 	 */
-	methods.add = fun.conform({min:3,max:3}, function(path, obj, fn) {
-		fn("Not implemented");
+	methods.create = fun.conform({min:3,max:3}, function(path, data, fn) {
+		var s = services.find(services.path(path).parent());
+		if(!s) {
+			fn("Could not find parent for path " + path);
+			return;
+		}
+		s.create(data, fn);
 	});
 
 	/* Update an object in the system
-	 * @param id Object identifier
-	 * @param values New values for the object
-	 * @param fn Callback function
+	 * @param path Resource path
+	 * @param changes New values for object
+	 * @param fn Callback in format function(err)
 	 */
-	methods.modify = function(id, values, fn) {
-		fn("Not implemented");
-	};
+	methods.modify = fun.conform({min:3,max:3}, function(path, changes, fn) {
+		var s = services.find(path);
+		if(!s) {
+			fn("Could not find path " + path);
+			return;
+		}
+		s.modify(changes, fn);
+	});
 
 	/* Remove an object from the system
 	 * @param id Object identifier
 	 * @param fn Callback function
 	 */
-	methods.del = function(id, fn) {
-		fn("Not implemented");
-	};
+	methods.del = fun.conform({min:2,max:2}, function(path, fn) {
+		var s = services.find(path);
+		if(!s) {
+			fn("Could not find path " + path);
+			return;
+		}
+		s.del(fn);
+	});
 	
 	//process.stderr.write("methods = " + JSON.stringify(methods) + "\n");
 	remoted.createServer({appname:'sysadmd'}, methods);
