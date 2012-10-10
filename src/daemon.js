@@ -20,7 +20,9 @@ mod.createServer = function() {
 	 */
 	methods.list = function (path, fn) {
 		var args = fun.conform(arguments, {min:1,max:2});
-		if(!args) return;
+		if(!args) {
+			return;
+		}
 		fn = args.shift();
 		path = args.shift();
 
@@ -91,8 +93,10 @@ mod.createServer = function() {
 	 * @param fn Callback function
 	 */
 	methods.add = function(path, obj, fn) {
-		var args = fun.conform(arguments, {min:3,max:3});
-		if(!args) return;
+		var args = fun.conform(arguments, {min:3,max:3}), values;
+		if(!args) {
+			return;
+		}
 		fn = args.shift();
 		values = args.shift();
 		path = args.shift();
