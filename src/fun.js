@@ -5,7 +5,8 @@
 /* for node-lint */
 /*global Buffer: false, clearInterval: false, clearTimeout: false, console: false, global: false, module: false, process: false, querystring: false, require: false, setInterval: false, setTimeout: false, util: false, __filename: false, __dirname: false */
 
-var mod = module.exports = {};
+var mod = module.exports = {},
+	json_schema = require('json-schema');
 
 /* for node-lint */
 /*global Buffer: false, clearInterval: false, clearTimeout: false, console: false, global: false, module: false, process: false, querystring: false, require: false, setInterval: false, setTimeout: false, util: false, __filename: false, __dirname: false */
@@ -15,10 +16,11 @@ var mod = module.exports = {};
  * @returns Returns argument list in reverse order. First element is the callback function.
  */
 function do_conform(args, opts) {
-	var arg, fn;
+	var arg, fn, validate;
 	try {
 		opts = opts || {};
 		args = Array.prototype.slice.call(args);
+		validate = opts.validate || [];
 		
 		// First priority to search for callback function
 		args = args.reverse();
@@ -48,6 +50,27 @@ function do_conform(args, opts) {
 			throw new TypeError("Too many arguments!");
 		}
 		
+		// Check validate
+		if(!(validate instanceof Array)) {
+			throw new TypeError("opts.validate must be an Array!");
+		} else if(validate.length !== 0) {
+			(function(){
+				var i = args.length - 1;
+				for(; i !== 0; i -= 1) {
+					(function(){
+						if(!validate[i]) return;
+						var result = json_schema.validate(args[i], validate[i]), msgs = [];
+						if(!result.valid) {
+							foreach(result.errors).each(function(p) {
+								msgs.push( p.property + ' - ' + p.message );
+							});
+							throw new TypeError("Argument #" + i + " was invalid: " + msgs.join(', '));
+						}
+					})();
+				}
+			})();
+		}
+		
 		return args;
 	} catch(e) {
 		function prettify(e) {
@@ -71,14 +94,16 @@ function do_conform(args, opts) {
 			throw e;
 		}
 	}
-};
+}
 
 /* Conformed function builder */
 mod.conform = function(opts, fn) {
 	var retfn = function() {
 		var max_length = opts.max || arguments.length,
 		    args = do_conform(arguments, opts);
-		if(!args) return;
+		if(!args) {
+			return;
+		}
 		args.reverse();
 		while(args.length < max_length) {
 			args.unshift(undefined);

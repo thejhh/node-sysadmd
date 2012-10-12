@@ -9,7 +9,8 @@
   },
   "dependencies": {
 	"snippets": "*",
-	"dnode-daemon": "*"
+	"dnode-daemon": "*",
+	"json-schema": "*"
   },
   "license": "MIT",
   "bin": {
