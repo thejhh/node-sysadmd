@@ -41,7 +41,7 @@ mod.list = function(objects, fn) {
 };
 
 mod.add = function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 	// groupadd GROUP
 	// mkdir -p /home/GROUP
 	// chmod GROUP_PERMS /home/GROUP
@@ -50,11 +50,11 @@ mod.add = function(fn) {
 };
 
 mod.del = function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 };
 
 mod.modify = function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 };
 
 /* EOF */

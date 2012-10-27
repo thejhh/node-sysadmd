@@ -50,7 +50,7 @@ mod.list = function(objects, fn) {
 /** 
  */
 mod.add = function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 			// [:groupadd if no group]
 			// useradd -g GROUP -s /bin/bash -d HOME -m -p CRYPTED_PASSWORD USERNAME
 			// adduser USERNAME users
@@ -60,11 +60,11 @@ mod.add = function(fn) {
 };
 
 mod.del = function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 };
 
 mod.modify = function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 };
 
 /*

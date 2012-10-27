@@ -15,7 +15,7 @@ module.exports = ServicePath;
  * @param fn Callback function that will get the results in format function(errors, objects)
  */
 ServicePath.prototype.parent = qualify.conform({type:'async',length:1,validate:[{type:'function',required:true}]}, function(fn) {
-	fn("Not implemented");
+	fn("Not implemented"); // FIXME: Implement it!
 });
 
 /* EOF */
