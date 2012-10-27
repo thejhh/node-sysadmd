@@ -10,7 +10,7 @@
   "dependencies": {
 	"snippets": "*",
 	"dnode-daemon": "*",
-	"json-schema": "*"
+	"qualify": "*"
   },
   "license": "MIT",
   "bin": {

@@ -6,10 +6,11 @@
 var mod = module.exports = {},
     foreach = require('snippets').foreach,
     spawn = require('child_process').spawn,
+    qualify = require('qualify'),
     request_counter = 0;
 
 /* Generic getent */
-mod.generic = function(dbname, fn) {
+mod.generic = qualify.conform({type:'async',length:2, validate:[{type:'string',required:true}]}, function(dbname, fn) {
 	var getent,
 	    full_data = '',
 	    errors = '',
@@ -60,10 +61,10 @@ mod.generic = function(dbname, fn) {
 			fn(undefined, records);
 		}
 	});
-};
+});
 
 /* Getent for group databasse */
-mod.group = function(fn) {
+mod.group = qualify.conform({type:'async', length:1, validate:[{type:'function',required:true}]}, function(fn) {
 	mod.generic("group", function(err, lines) {
 		if(err) {
 			return fn(err);
@@ -80,10 +81,10 @@ mod.group = function(fn) {
 		});
 		fn(undefined, records);
 	});
-};
+});
 
 /* Getent for passwd database */
-mod.passwd = function(fn) {
+mod.passwd = qualify.conform({type:'async', length:1, validate:[{type:'function',required:true}]}, function(fn) {
 	mod.generic("passwd", function(err, passwd) {
 		//process.stderr.write("mod.generic() returned err = " + err + " and passwd = " + JSON.stringify(passwd) + "\n");
 		if(err) {
@@ -103,6 +104,6 @@ mod.passwd = function(fn) {
 		});
 		fn(undefined, records);
 	});
-};
+});
 
 /* EOF */

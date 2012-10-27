@@ -5,13 +5,13 @@
 
 var mod = module.exports = {},
     os = require('os'),
-    fun = require('./fun.js'),
+    qualify = require('qualify'),
     getent = require('./getent.js'),
     foreach = require('snippets').foreach,
     services = require('./services/index.js');
 
 /* Create dnode server */
-mod.createServer = fun.conform({min:0, max:0}, function() {
+mod.createServer = qualify.conform({length:0}, function() {
 	var remoted = require('dnode-daemon'),
 	    methods = {};
 	
@@ -19,7 +19,7 @@ mod.createServer = fun.conform({min:0, max:0}, function() {
 	 * @param path Optional. Returns the index if undefined.
 	 * @param fn Callback function in format function(err, data)
 	 */
-	methods.get = fun.conform({min:1,max:2, validate:[{type:'string', "required":true}]}, function (path, fn) {
+	methods.get = qualify.conform({type:'async',defaults:'right',min:1,max:2, validate:[{type:'string', "required":true}]}, function (path, fn) {
 		var s = services.find(path);
 		if(!s) {
 			fn("Could not find path " + path);
@@ -33,7 +33,7 @@ mod.createServer = fun.conform({min:0, max:0}, function() {
 	 * @param values Object values
 	 * @param fn Callback function
 	 */
-	methods.create = fun.conform({min:3,max:3, validate:[{type:'string', "required":true}, {type:'object', "required":true}]}, function(path, data, fn) {
+	methods.create = qualify.conform({type:'async',length:3, validate:[{type:'string', "required":true}, {type:'object', "required":true}]}, function(path, data, fn) {
 		var s = services.find(services.path(path).parent());
 		if(!s) {
 			fn("Could not find parent for path " + path);
@@ -47,7 +47,7 @@ mod.createServer = fun.conform({min:0, max:0}, function() {
 	 * @param changes New values for object
 	 * @param fn Callback in format function(err)
 	 */
-	methods.modify = fun.conform({min:3, max:3, validate:[{type:'string', "required":true}, {type:'object', "required":true}] }, function(path, changes, fn) {
+	methods.modify = qualify.conform({type:'async',length:3, validate:[{type:'string', "required":true}, {type:'object', "required":true}] }, function(path, changes, fn) {
 		var s = services.find(path);
 		if(!s) {
 			fn("Could not find path " + path);
@@ -60,7 +60,7 @@ mod.createServer = fun.conform({min:0, max:0}, function() {
 	 * @param path Path to object
 	 * @param fn Callback function
 	 */
-	methods.del = fun.conform({min:2,max:2, validate:[{type:'string', "required":true}]}, function(path, fn) {
+	methods.del = qualify.conform({type:'async',length:2, validate:[{type:'string', "required":true}]}, function(path, fn) {
 		var s = services.find(path);
 		if(!s) {
 			fn("Could not find path " + path);
